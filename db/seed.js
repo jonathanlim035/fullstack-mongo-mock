@@ -1,8 +1,8 @@
 const Product = require('./');
 var mongoose = require('mongoose');
 
-// Fill in the definition of insertMockData so that when 
-// this file is run in the terminal with `node seed.js`, 
+// Fill in the definition of insertMockData so that when
+// this file is run in the terminal with `node seed.js`,
 // all 10 products are inserted into the database
 
 const adjectives = ['Used', 'New', 'Refurbished', "PARTS ONLY"];
@@ -15,7 +15,7 @@ const createProduct = () => {
   product.min_cost = parseFloat(Math.ceil(Math.random() * Math.ceil(1000)));
   product.curr_bid = parseFloat(Math.ceil(Math.random() * Math.ceil(10000)));
   product.ends_in = Math.ceil(Math.random() * Math.ceil(3));
-  // the lorempixel images render very slowly for some reason. 
+  // the lorempixel images render very slowly for some reason.
   // don't worry too much if some images load while the others don't.
   // it's probably not your fault
   product.image = `http://lorempixel.com/400/400/technics/${Math.ceil(Math.random() * Math.ceil(10))}`;
@@ -32,9 +32,10 @@ const createProducts = () => {
 
 const insertMockData = function() {
   // Complete me please
-
+  Product.insertMany(createProducts());
 };
 
 // NOTE: DO NOT invoke this function as part of your
 // server code - it is meant to only be run once so that
 // you have access to data to work with
+insertMockData();
