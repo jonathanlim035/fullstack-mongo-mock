@@ -46,7 +46,7 @@ export default class App extends React.Component {
             <ProductViewer />
           </div>
           <div className="col-md-5 product-list-container">
-            <ProductList  />
+            <ProductList  data={this.state.data}/>
           </div>
         </div>
       </div>
