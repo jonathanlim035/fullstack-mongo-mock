@@ -1,10 +1,11 @@
 // Controller here
 // complete building out the controller
 var Product = require('../db/')
+var helpers = require('../db/dbhelpers.js');
 
 const controller = {
   get: (req, res) => {
-    Product.find({ })
+    helpers.getProductsHelper()
       .then((results) => {
         res.status(200).json(results);
       })
@@ -13,7 +14,7 @@ const controller = {
       })
   },
   post: (req, res) => {
-    Product.create(req.body)
+    helpers.postProductsHelper(req.body)
       .then(() => {
         res.status(200).send('Posted!')
       })
@@ -22,7 +23,7 @@ const controller = {
       })
   },
   put: (req, res) => {
-    Product.findOneAndUpdate({ _id: req.params._id }, req.body)
+    helpers.updateProductHelper({ _id: req.params._id }, req.body)
       .then(() => {
         res.status(200).send('Updated!');
       })
@@ -31,7 +32,7 @@ const controller = {
       })
   },
   delete: (req, res) => {
-    Product.deleteOne({ _id: req.params._id })
+    helpers.deleteProductHelper({ _id: req.params._id })
       .then(() => {
         res.status(200).send('Deleted!');
       })
