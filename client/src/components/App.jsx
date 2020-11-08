@@ -13,7 +13,8 @@ export default class App extends React.Component {
       current: {}
     },
     this.updateData = this.updateData.bind(this),
-    this.updateCurrent = this.updateCurrent.bind(this)
+    this.updateCurrent = this.updateCurrent.bind(this),
+    this.updateCurrentPrice = this.updateCurrentPrice.bind(this)
   }
 
   updateData(callback = () => {}) {
@@ -31,8 +32,20 @@ export default class App extends React.Component {
     this.setState({ current: item })
   }
 
+  updateCurrentPrice(price) {
+    this.setState({ current: {
+      __v: this.state.current.__v,
+      _id: this.state.current._id,
+      curr_bid: price,
+      ends_in: this.state.current.ends_in,
+      image: this.state.current.image,
+      item: this.state.current.item,
+      min_cost: this.state.current.min_cost
+    }});
+  }
+
   componentDidMount() {
-    this.updateData(() => {this.updateCurrent(this.state.data[0])});
+    this.updateData(() => this.setState({ current: this.state.data[0] }));
   }
 
   render(){
@@ -50,7 +63,7 @@ export default class App extends React.Component {
         </nav>
         <div className="row main-container">
           <div className="col-md-7 product-viewer-container">
-            <ProductViewer data={this.state.current} updateData={this.updateData} updateCurrent={this.updateCurrent}/>
+            <ProductViewer data={this.state.current} updateData={this.updateData} updateCurrentPrice={this.updateCurrentPrice}/>
           </div>
           <div className="col-md-5 product-list-container">
             <ProductList  data={this.state.data} updateCurrent={this.updateCurrent}/>

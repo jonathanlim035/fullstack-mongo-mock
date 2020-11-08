@@ -5,10 +5,12 @@ export default class ProductViewer extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      input: ''
+      input: '',
+      data: {}
     },
     this.onChange = this.onChange.bind(this),
-    this.handleSubmit = this.handleSubmit.bind(this)
+    this.handleSubmit = this.handleSubmit.bind(this),
+    this.updateData = this.updateData.bind(this)
   }
 
   onChange(e) {
@@ -20,7 +22,7 @@ export default class ProductViewer extends React.Component {
     if (this.state.input > this.props.data.min_cost) {
       axios.put(`http://localhost:3000/api/products/${this.props.data._id}`, { curr_bid: this.state.input })
         .then(() => {
-          this.props.updateData(this.props.updateCurrent(this.props.data));
+          this.props.updateData(this.props.updateCurrentPrice(this.state.input));
           window.alert('Successfully bid');
         })
         .catch((err) => {
@@ -29,6 +31,14 @@ export default class ProductViewer extends React.Component {
     } else {
       window.alert('BID MORE');
     }
+  }
+
+  updateData() {
+    this.setState({ data: this.props.data });
+  }
+
+  componentDidMount() {
+    this.updateData();
   }
 
   render(){
