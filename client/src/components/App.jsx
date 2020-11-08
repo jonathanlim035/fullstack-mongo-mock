@@ -36,8 +36,12 @@ export default class App extends React.Component {
         return product;
       }
     })
-    this.setState({ current: resultArr[0]});
-    document.getElementById('searchbox').value = '';
+    if (resultArr.length > 0) {
+      this.setState({ current: resultArr[0]});
+      document.getElementById('searchbox').value = '';
+    } else {
+      return
+    }
   }
 
   updateCurrent(item) {
