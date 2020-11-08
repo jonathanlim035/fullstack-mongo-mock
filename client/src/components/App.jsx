@@ -38,10 +38,10 @@ export default class App extends React.Component {
     })
     if (resultArr.length > 0) {
       this.setState({ current: resultArr[0]});
-      document.getElementById('searchbox').value = '';
     } else {
-      return
+      window.alert('Nothing found');
     }
+    document.getElementById('searchbox').value = '';
   }
 
   updateCurrent(item) {
