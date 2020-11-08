@@ -53,7 +53,7 @@ export default class App extends React.Component {
             <ProductViewer data={this.state.current} updateData={this.updateData} updateCurrent={this.updateCurrent}/>
           </div>
           <div className="col-md-5 product-list-container">
-            <ProductList  data={this.state.data}/>
+            <ProductList  data={this.state.data} updateCurrent={this.updateCurrent}/>
           </div>
         </div>
       </div>

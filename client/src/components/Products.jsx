@@ -1,8 +1,10 @@
 import React from 'react';
 
-const Products = ({ item }) => {
+const Products = ({ item, updateCurrent }) => {
    return(
-    <div className='product-list-entry'>
+    <div className='product-list-entry' onClick={() => {
+      updateCurrent(item);
+      }}>
       <img src={item.image} />
       <h3>{item.item}</h3>
       <h4> Current Bid: {item.curr_bid}</h4>

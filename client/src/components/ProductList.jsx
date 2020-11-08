@@ -8,7 +8,7 @@ const ProductList = (props) => {
       {
         props.data.map((item) => {
           return(
-            <Products key={item._id} item={item}/>
+            <Products key={item._id} item={item} updateCurrent={props.updateCurrent}/>
           )
         })
       }
