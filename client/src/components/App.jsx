@@ -2,6 +2,7 @@ import React from 'react';
 import ProductList from './ProductList';
 import ProductViewer from './ProductViewer';
 import Search from './Search';
+import Form from './Form';
 
 import axios from 'axios';
 
@@ -10,12 +11,15 @@ export default class App extends React.Component {
     super(props);
     this.state = {
       data: [],
-      current: {}
+      current: {},
+      toggled: true
     },
     this.updateData = this.updateData.bind(this),
     this.updateCurrent = this.updateCurrent.bind(this),
     this.updateCurrentPrice = this.updateCurrentPrice.bind(this),
-    this.handleSearch = this.handleSearch.bind(this);
+    this.handleSearch = this.handleSearch.bind(this),
+    this.toggle = this.toggle.bind(this),
+    this.handleSubmit = this.handleSubmit.bind(this)
   }
 
   updateData(callback = () => {}) {
@@ -48,6 +52,30 @@ export default class App extends React.Component {
     this.setState({ current: item })
   }
 
+  toggle() {
+    this.setState({ toggled: !this.state.toggled});
+  }
+
+  handleSubmit(e) {
+    e.preventDefault();
+    let product = {
+      item: e.target[2].value,
+      min_cost: e.target[3].value,
+      curr_bid: e.target[3].value,
+      ends_in: e.target[0].value,
+      image: e.target[1].value
+    }
+    axios.post('http://localhost:3000/api/products', product)
+      .then(() => {
+        this.updateData();
+        window.alert('Added!');
+        this.toggle();
+      })
+      .catch((err) => {
+        console.error(err);
+      })
+  }
+
   updateCurrentPrice(price) {
     this.setState({ current: {
       __v: this.state.current.__v,
@@ -65,27 +93,42 @@ export default class App extends React.Component {
   }
 
   render(){
-
-    return(
-      <div>
+    if(this.state.toggled) {
+      return(
         <div>
-          <h1>EBID</h1>
-          <h3>The jankiest ebay rip-off you'll ever see (probably)</h3>
+          <div>
+            <h1>EBID</h1>
+            <h3>The jankiest ebay rip-off you'll ever see (probably)</h3>
+          </div>
+          <nav className="navbar">
+            <div className="col-md-6 offset-md-3">
+              <Search handleSearch={this.handleSearch}/>
+            </div>
+            <button onClick={this.toggle}>Sell something!!</button>
+          </nav>
+          <div className="row main-container">
+            <div className="col-md-7 product-viewer-container">
+              <ProductViewer data={this.state.current} updateData={this.updateData} updateCurrentPrice={this.updateCurrentPrice}/>
+            </div>
+            <div className="col-md-5 product-list-container">
+              <ProductList  data={this.state.data} updateCurrent={this.updateCurrent}/>
+            </div>
+          </div>
         </div>
-        <nav className="navbar">
-          <div className="col-md-6 offset-md-3">
-            <Search handleSearch={this.handleSearch}/>
+      )
+    } else {
+      return (
+        <div>
+          <div>
+            <h1>EBID</h1>
+            <h3>The jankiest ebay rip-off you'll ever see (probably)</h3>
           </div>
-        </nav>
-        <div className="row main-container">
-          <div className="col-md-7 product-viewer-container">
-            <ProductViewer data={this.state.current} updateData={this.updateData} updateCurrentPrice={this.updateCurrentPrice}/>
-          </div>
-          <div className="col-md-5 product-list-container">
-            <ProductList  data={this.state.data} updateCurrent={this.updateCurrent}/>
-          </div>
+          <nav className="navbar">
+            <button onClick={this.toggle}>Return Home!!</button>
+          </nav>
+          <Form handleSubmit={this.handleSubmit}/>
         </div>
-      </div>
-    )
+      )
+    }
   }
 }
