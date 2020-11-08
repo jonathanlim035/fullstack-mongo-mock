@@ -32,7 +32,7 @@ export default class App extends React.Component {
   }
 
   componentDidMount() {
-    this.updateData(() => {this.setState({ current: this.state.data[0] })});
+    this.updateData(() => {this.updateCurrent(this.state.data[0])});
   }
 
   render(){
@@ -50,7 +50,7 @@ export default class App extends React.Component {
         </nav>
         <div className="row main-container">
           <div className="col-md-7 product-viewer-container">
-            <ProductViewer />
+            <ProductViewer data={this.state.current} updateData={this.updateData} updateCurrent={this.updateCurrent}/>
           </div>
           <div className="col-md-5 product-list-container">
             <ProductList  data={this.state.data}/>
