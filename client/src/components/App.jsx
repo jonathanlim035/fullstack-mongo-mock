@@ -9,13 +9,27 @@ export default class App extends React.Component {
   constructor(props){
     super(props);
     this.state = {
+      data: []
+    },
+    this.updateData = this.updateData.bind(this)
+  }
 
-    }
+  updateData() {
+    axios.get('http://localhost:3000/api/products')
+      .then((results) => {
+        this.setState({ data: results.data });
+      })
+      .catch((err) => {
+        console.error(err);
+      })
+  }
 
+  componentDidMount() {
+    this.updateData();
   }
 
   render(){
-  
+
     return(
       <div>
         <div>
