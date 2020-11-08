@@ -14,7 +14,8 @@ export default class App extends React.Component {
     },
     this.updateData = this.updateData.bind(this),
     this.updateCurrent = this.updateCurrent.bind(this),
-    this.updateCurrentPrice = this.updateCurrentPrice.bind(this)
+    this.updateCurrentPrice = this.updateCurrentPrice.bind(this),
+    this.handleSearch = this.handleSearch.bind(this);
   }
 
   updateData(callback = () => {}) {
@@ -26,6 +27,17 @@ export default class App extends React.Component {
       .catch((err) => {
         console.error(err);
       })
+  }
+
+  handleSearch(e) {
+    e.preventDefault();
+    let resultArr = this.state.data.filter((product) => {
+      if (product.item.includes(document.getElementById('searchbox').value)) {
+        return product;
+      }
+    })
+    this.setState({ current: resultArr[0]});
+    document.getElementById('searchbox').value = '';
   }
 
   updateCurrent(item) {
@@ -58,7 +70,7 @@ export default class App extends React.Component {
         </div>
         <nav className="navbar">
           <div className="col-md-6 offset-md-3">
-            <Search />
+            <Search handleSearch={this.handleSearch}/>
           </div>
         </nav>
         <div className="row main-container">
