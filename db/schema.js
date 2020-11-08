@@ -13,7 +13,7 @@ var productSchema= mongoose.Schema ({
     item:
       - string,
     min_cost:
-      - number,
+      - number,mo
     curr_bid:
       - number,
     ends_in:
