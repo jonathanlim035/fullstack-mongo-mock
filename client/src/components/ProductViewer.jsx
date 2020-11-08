@@ -19,11 +19,13 @@ export default class ProductViewer extends React.Component {
 
   handleSubmit(e) {
     e.preventDefault();
+    e.persist();
     if (this.state.input > this.props.data.min_cost) {
       axios.put(`http://localhost:3000/api/products/${this.props.data._id}`, { curr_bid: this.state.input })
         .then(() => {
           this.props.updateData(this.props.updateCurrentPrice(this.state.input));
           window.alert('Successfully bid');
+          e.target.reset();
         })
         .catch((err) => {
           console.error(err);
