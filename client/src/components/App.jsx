@@ -9,23 +9,30 @@ export default class App extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      data: []
+      data: [],
+      current: {}
     },
-    this.updateData = this.updateData.bind(this)
+    this.updateData = this.updateData.bind(this),
+    this.updateCurrent = this.updateCurrent.bind(this)
   }
 
-  updateData() {
+  updateData(callback = () => {}) {
     axios.get('http://localhost:3000/api/products')
       .then((results) => {
         this.setState({ data: results.data });
+        callback();
       })
       .catch((err) => {
         console.error(err);
       })
   }
 
+  updateCurrent(item) {
+    this.setState({ current: item })
+  }
+
   componentDidMount() {
-    this.updateData();
+    this.updateData(() => {this.setState({ current: this.state.data[0] })});
   }
 
   render(){
